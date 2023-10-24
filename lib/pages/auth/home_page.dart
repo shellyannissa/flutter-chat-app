@@ -1,6 +1,6 @@
 import 'package:chat_app/helper/helper_function.dart';
 import 'package:chat_app/pages/auth/login_page.dart';
-// import 'package:chat_app/pages/profile_page.dart';
+import 'package:chat_app/pages/profile_page.dart';
 import 'package:chat_app/pages/search_page.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/services/database_service.dart';
@@ -119,12 +119,12 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap: () {
-              // nextScreenReplace(
-              //     context,
-              //     ProfilePage(
-              //       userName: userName,
-              //       email: email,
-              //     ));
+              nextScreenReplace(
+                  context,
+                  ProfilePage(
+                    userName: userName,
+                    email: email,
+                  ));
             },
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 5),

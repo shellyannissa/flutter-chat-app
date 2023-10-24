@@ -4,7 +4,7 @@ import 'package:chat_app/pages/profile_page.dart';
 import 'package:chat_app/pages/search_page.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/services/database_service.dart';
-// import 'package:chat_app/widgets/group_tile.dart';
+import 'package:chat_app/widgets/group_tile.dart';
 import 'package:chat_app/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       )),
-      // body: groupList(),
+      body: groupList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           popUpDialog(context);
@@ -275,39 +275,44 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  // groupList() {
-  //   return StreamBuilder(
-  //     stream: groups,
-  //     builder: (context, AsyncSnapshot snapshot) {
-  //       // make some checks
-  //       if (snapshot.hasData) {
-  //         if (snapshot.data['groups'] != null) {
-  //           if (snapshot.data['groups'].length != 0) {
-  //             return ListView.builder(
-  //               itemCount: snapshot.data['groups'].length,
-  //               itemBuilder: (context, index) {
-  //                 int reverseIndex = snapshot.data['groups'].length - index - 1;
-  //                 return GroupTile(
-  //                     groupId: getId(snapshot.data['groups'][reverseIndex]),
-  //                     groupName: getName(snapshot.data['groups'][reverseIndex]),
-  //                     userName: snapshot.data['fullName']);
-  //               },
-  //             );
-  //           } else {
-  //             return noGroupWidget();
-  //           }
-  //         } else {
-  //           return noGroupWidget();
-  //         }
-  //       } else {
-  //         return Center(
-  //           child: CircularProgressIndicator(
-  //               color: Theme.of(context).primaryColor),
-  //         );
-  //       }
-  //     },
-  //   );
-  // }
+  groupList() {
+    return StreamBuilder(
+      stream: groups,
+      builder: (context, AsyncSnapshot snapshot) {
+        // make some checks
+        if (snapshot.hasData) {
+          if (snapshot.data['groups'] != null) {
+            if (snapshot.data['groups'].length != 0) {
+              return ListView.builder(
+                itemCount: snapshot.data['groups'].length,
+                itemBuilder: (context, index) {
+                  int reverseIndex = snapshot.data['groups'].length - index - 1;
+                  return GroupTile(
+                      groupId: getId(snapshot.data['groups'][reverseIndex]),
+                      groupName: getName(snapshot.data['groups'][reverseIndex]),
+                      userName: snapshot.data['fullName']);
+
+                  return const Center(
+                    child: Text(
+                        'this is what you should do with for the time being'),
+                  );
+                },
+              );
+            } else {
+              return noGroupWidget();
+            }
+          } else {
+            return noGroupWidget();
+          }
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor),
+          );
+        }
+      },
+    );
+  }
 
   noGroupWidget() {
     return Container(

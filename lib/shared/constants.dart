@@ -7,5 +7,5 @@ class Constants {
   static String storageBucket = "chat-app-4d401.appspot.com";
   static String messagingSenderId = "208186499870";
   static String appId = "1:208186499870:web:fc24de7054c319cfe6df0f";
-  final primaryColor = const Color(0xFFee7b64);
+  final primaryColor = const Color.fromARGB(255, 144, 233, 205);
 }

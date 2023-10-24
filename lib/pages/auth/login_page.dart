@@ -1,6 +1,9 @@
+import 'package:chat_app/pages/auth/home_page.dart';
 import 'package:chat_app/pages/auth/register_page.dart';
 
 import 'package:chat_app/helper/helper_function.dart';
+import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/services/database_service.dart';
 import 'package:chat_app/widgets/widgets.dart';
 
 import 'package:flutter/widgets.dart';
@@ -20,7 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
-  final bool _isLoading = false;
+  bool _isLoading = false;
+  AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,5 +144,30 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void login() {}
+  void login() async {
+    if (formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      await authService
+          .loginWithUserNameandPassword(email, password)
+          .then((value) async {
+        if (value == true) {
+          QuerySnapshot snapshot =
+              await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+                  .gettingUserData(email);
+          // saving the values to our shared preferences
+          await HelperFunctions.saveUserLoggedInStatus(true);
+          await HelperFunctions.saveUserEmailSF(email);
+          await HelperFunctions.saveUserNameSF(snapshot.docs[0]['fullName']);
+          nextScreenReplace(context, const HomePage());
+        } else {
+          showSnackbar(context, Colors.red, value);
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      });
+    }
+  }
 }

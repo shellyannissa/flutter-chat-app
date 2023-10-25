@@ -175,7 +175,8 @@ class _SearchPageState extends State<SearchPage> {
             setState(() {
               isJoined = !isJoined;
             });
-            showSnackbar(context, Colors.green, "Successfully joined he group");
+            showSnackbar(
+                context, Colors.green, "Successfully joined the group");
             Future.delayed(const Duration(seconds: 2), () {
               nextScreen(
                   context,

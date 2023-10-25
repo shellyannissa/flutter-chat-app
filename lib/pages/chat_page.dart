@@ -2,7 +2,7 @@ import 'package:chat_app/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/pages/group_info.dart';
 import 'package:chat_app/services/database_service.dart';
-// import 'package:chat_app/widgets/message_tile.dart';
+import 'package:chat_app/widgets/message_tile.dart';
 import 'package:chat_app/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -70,7 +70,7 @@ class _ChatPageState extends State<ChatPage> {
       body: Stack(
         children: <Widget>[
           // chat messages here
-          // chatMessages(),
+          chatMessages(),
           Container(
             alignment: Alignment.bottomCenter,
             width: MediaQuery.of(context).size.width,
@@ -94,7 +94,7 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // sendMessage();
+                    sendMessage();
                   },
                   child: Container(
                     height: 50,
@@ -118,38 +118,38 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-//   chatMessages() {
-//     return StreamBuilder(
-//       stream: chats,
-//       builder: (context, AsyncSnapshot snapshot) {
-//         return snapshot.hasData
-//             ? ListView.builder(
-//                 itemCount: snapshot.data.docs.length,
-//                 itemBuilder: (context, index) {
-//                   return MessageTile(
-//                       message: snapshot.data.docs[index]['message'],
-//                       sender: snapshot.data.docs[index]['sender'],
-//                       sentByMe: widget.userName ==
-//                           snapshot.data.docs[index]['sender']);
-//                 },
-//               )
-//             : Container();
-//       },
-//     );
-//   }
+  chatMessages() {
+    return StreamBuilder(
+      stream: chats,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return MessageTile(
+                      message: snapshot.data.docs[index]['message'],
+                      sender: snapshot.data.docs[index]['sender'],
+                      sentByMe: widget.userName ==
+                          snapshot.data.docs[index]['sender']);
+                },
+              )
+            : Container();
+      },
+    );
+  }
 
-//   sendMessage() {
-//     if (messageController.text.isNotEmpty) {
-//       Map<String, dynamic> chatMessageMap = {
-//         "message": messageController.text,
-//         "sender": widget.userName,
-//         "time": DateTime.now().millisecondsSinceEpoch,
-//       };
+  sendMessage() {
+    if (messageController.text.isNotEmpty) {
+      Map<String, dynamic> chatMessageMap = {
+        "message": messageController.text,
+        "sender": widget.userName,
+        "time": DateTime.now().millisecondsSinceEpoch,
+      };
 
-//       DatabaseService().sendMessage(widget.groupId, chatMessageMap);
-//       setState(() {
-//         messageController.clear();
-//       });
-//     }
-//   }
+      DatabaseService().sendMessage(widget.groupId, chatMessageMap);
+      setState(() {
+        messageController.clear();
+      });
+    }
+  }
 }
